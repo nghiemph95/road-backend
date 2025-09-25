@@ -1,0 +1,36 @@
+{
+  "name": "redis-learning",
+  "version": "1.0.0",
+  "description": "Học Redis với TypeScript - Các ví dụ thực tế",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "redis:start": "docker-compose up -d redis",
+    "redis:stop": "docker-compose down",
+    "redis:cli": "docker exec -it redis-learning-redis-1 redis-cli"
+  },
+  "keywords": [
+    "redis",
+    "typescript",
+    "nodejs",
+    "learning",
+    "cache",
+    "database"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^4.6.12",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.0.2"
+  }
+}

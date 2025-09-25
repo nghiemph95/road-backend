@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis-learning-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cluster (tùy chọn - để học clustering)
+  redis-cluster:
+    image: redis:7-alpine
+    container_name: redis-learning-cluster
+    ports:
+      - "7000-7005:7000-7005"
+    volumes:
+      - ./cluster-setup.sh:/cluster-setup.sh
+    command: /bin/sh -c "chmod +x /cluster-setup.sh && /cluster-setup.sh"
+    depends_on:
+      - redis
+
+volumes:
+  redis_data:
+    driver: local
