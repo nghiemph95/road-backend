@@ -27,7 +27,7 @@ export class CachingExamples {
     const expensiveCalculation = (n: number): number => {
       console.log(`  Computing fibonacci(${n})...`);
       if (n <= 1) return n;
-      return this.fibonacci(n - 1) + this.fibonacci(n - 2);
+      return expensiveCalculation(n - 1) + expensiveCalculation(n - 2);
     };
 
     // Hàm fibonacci với cache
