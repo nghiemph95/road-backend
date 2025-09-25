@@ -1,48 +1,48 @@
 # 🚀 Redis Learning Project
 
-Dự án học Redis với TypeScript - Các ví dụ thực tế và dễ hiểu để nắm vững Redis từ cơ bản đến nâng cao.
+A comprehensive Redis learning project with TypeScript - Practical examples and easy-to-understand code to master Redis from basics to advanced concepts.
 
-## 📋 Mục lục
+## 📋 Table of Contents
 
-- [Giới thiệu](#giới-thiệu)
-- [Cài đặt](#cài-đặt)
-- [Cấu trúc dự án](#cấu-trúc-dự-án)
-- [Chạy dự án](#chạy-dự-án)
-- [Các ví dụ](#các-ví-dụ)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Examples](#examples)
 - [Redis Commands](#redis-commands)
 - [Best Practices](#best-practices)
 
-## 🎯 Giới thiệu
+## 🎯 Introduction
 
-Dự án này được thiết kế để giúp bạn học Redis một cách thực tế thông qua:
+This project is designed to help you learn Redis practically through:
 
-- **Ví dụ cụ thể**: Mỗi concept đều có ví dụ code rõ ràng
-- **TypeScript**: Sử dụng TypeScript để có type safety
-- **Docker**: Chạy Redis dễ dàng với Docker
-- **Thực tế**: Các pattern và use case thực tế trong production
+- **Concrete Examples**: Each concept has clear code examples
+- **TypeScript**: Using TypeScript for type safety
+- **Docker**: Easy Redis setup with Docker
+- **Real-world**: Production-ready patterns and use cases
 
-## 🛠️ Cài đặt
+## 🛠️ Installation
 
-### Yêu cầu hệ thống
+### System Requirements
 
 - Node.js >= 16
 - Docker & Docker Compose
-- npm hoặc yarn
+- npm or yarn
 
-### Bước 1: Clone và cài đặt dependencies
+### Step 1: Clone and install dependencies
 
 ```bash
 cd redis-learning
 npm install
 ```
 
-### Bước 2: Cấu hình môi trường
+### Step 2: Environment configuration
 
 ```bash
 cp env.example .env
 ```
 
-Chỉnh sửa file `.env` nếu cần:
+Edit the `.env` file if needed:
 
 ```env
 REDIS_HOST=localhost
@@ -51,23 +51,23 @@ REDIS_PASSWORD=
 REDIS_DB=0
 ```
 
-### Bước 3: Khởi động Redis với Docker
+### Step 3: Start Redis with Docker
 
 ```bash
-# Khởi động Redis
+# Start Redis
 npm run redis:start
 
-# Kiểm tra Redis đang chạy
+# Check if Redis is running
 npm run redis:cli
 ```
 
-## 📁 Cấu trúc dự án
+## 📁 Project Structure
 
 ```
 redis-learning/
 ├── src/
 │   ├── config/
-│   │   └── redis.ts          # Cấu hình Redis connection
+│   │   └── redis.ts          # Redis connection configuration
 │   ├── examples/
 │   │   ├── basic-operations.ts    # SET/GET, EXISTS, DEL, EXPIRE
 │   │   ├── data-structures.ts     # Lists, Sets, Sorted Sets, Hashes
@@ -81,120 +81,120 @@ redis-learning/
 └── README.md
 ```
 
-## 🚀 Chạy dự án
+## 🚀 Running the Project
 
-### Chạy tất cả ví dụ
+### Run all examples
 
 ```bash
 npm run dev
 ```
 
-### Build và chạy production
+### Build and run production
 
 ```bash
 npm run build
 npm start
 ```
 
-### Các lệnh khác
+### Other commands
 
 ```bash
-# Xem Redis CLI
+# View Redis CLI
 npm run redis:cli
 
-# Dừng Redis
+# Stop Redis
 npm run redis:stop
 
 # Clean build
 npm run clean
 ```
 
-## 📚 Các ví dụ
+## 📚 Examples
 
 ### 1. Basic Operations (`basic-operations.ts`)
 
-Học các thao tác cơ bản nhất của Redis:
+Learn the most fundamental Redis operations:
 
-- **SET/GET**: Lưu trữ và lấy dữ liệu
-- **EXISTS**: Kiểm tra key có tồn tại
-- **DEL**: Xóa key
-- **EXPIRE/TTL**: Đặt thời gian hết hạn
-- **MSET/MGET**: Thao tác nhiều key cùng lúc
-- **INCR/DECR**: Tăng/giảm số
+- **SET/GET**: Store and retrieve data
+- **EXISTS**: Check if key exists
+- **DEL**: Delete key
+- **EXPIRE/TTL**: Set expiration time
+- **MSET/MGET**: Multiple key operations
+- **INCR/DECR**: Increment/decrement numbers
 
 ```typescript
-// Ví dụ SET/GET
-await client.set("name", "Nguyễn Văn A");
+// SET/GET example
+await client.set("name", "John Doe");
 const name = await client.get("name");
-console.log(name); // "Nguyễn Văn A"
+console.log(name); // "John Doe"
 ```
 
 ### 2. Data Structures (`data-structures.ts`)
 
-Khám phá các kiểu dữ liệu của Redis:
+Explore Redis data types:
 
-#### Lists (Danh sách có thứ tự)
+#### Lists (Ordered collections)
 
 ```typescript
-// Thêm vào đầu danh sách
+// Add to the beginning of the list
 await client.lPush("shopping_list", "milk", "bread");
 
-// Lấy tất cả items
+// Get all items
 const items = await client.lRange("shopping_list", 0, -1);
 ```
 
-#### Sets (Tập hợp không trùng lặp)
+#### Sets (Unique collections)
 
 ```typescript
-// Thêm vào set
+// Add to set
 await client.sAdd("fruits", "apple", "banana", "orange");
 
-// Kiểm tra phần tử có trong set
+// Check if element exists in set
 const hasApple = await client.sIsMember("fruits", "apple");
 ```
 
-#### Sorted Sets (Tập hợp có điểm số)
+#### Sorted Sets (Scored collections)
 
 ```typescript
-// Thêm với điểm số
+// Add with scores
 await client.zAdd("leaderboard", [
   { score: 100, value: "player1" },
   { score: 150, value: "player2" },
 ]);
 
-// Lấy theo thứ tự giảm dần
+// Get in descending order
 const topPlayers = await client.zRevRange("leaderboard", 0, -1);
 ```
 
 #### Hashes (Object key-value)
 
 ```typescript
-// Set nhiều field
+// Set multiple fields
 await client.hSet("user:1001", {
-  name: "Nguyễn Văn A",
-  email: "nguyenvana@example.com",
+  name: "John Doe",
+  email: "john@example.com",
   age: "30",
 });
 
-// Lấy tất cả fields
+// Get all fields
 const userData = await client.hGetAll("user:1001");
 ```
 
 ### 3. Caching Examples (`caching.ts`)
 
-Học các pattern caching thực tế:
+Learn practical caching patterns:
 
-#### Cache đơn giản
+#### Simple Cache
 
 ```typescript
 const fibonacci = async (n: number): Promise<number> => {
   const cacheKey = `fib:${n}`;
 
-  // Kiểm tra cache trước
+  // Check cache first
   const cached = await client.get(cacheKey);
   if (cached) return parseInt(cached);
 
-  // Tính toán và cache kết quả
+  // Calculate and cache result
   const result = expensiveCalculation(n);
   await client.set(cacheKey, result.toString());
 
@@ -202,19 +202,19 @@ const fibonacci = async (n: number): Promise<number> => {
 };
 ```
 
-#### Cache với TTL
+#### Cache with TTL
 
 ```typescript
-// Cache với thời gian hết hạn 5 giây
+// Cache with 5 seconds expiration
 await client.setEx("current_time", 5, new Date().toISOString());
 ```
 
 #### Cache Invalidation
 
 ```typescript
-// Cập nhật user và xóa cache
+// Update user and clear cache
 const updateUser = async (id: number, updates: Partial<User>) => {
-  // Cập nhật database
+  // Update database
   await updateUserInDB(id, updates);
 
   // Invalidate cache
@@ -224,41 +224,41 @@ const updateUser = async (id: number, updates: Partial<User>) => {
 
 ## 🔧 Redis Commands
 
-### Các lệnh cơ bản
+### Basic Commands
 
 ```bash
-# Kết nối Redis CLI
+# Connect to Redis CLI
 redis-cli
 
-# Kiểm tra kết nối
+# Test connection
 PING
 
-# Xem tất cả keys
+# View all keys
 KEYS *
 
-# Xem thông tin server
+# View server information
 INFO
 
-# Xóa tất cả dữ liệu
+# Clear all data
 FLUSHALL
 
-# Thoát
+# Exit
 EXIT
 ```
 
-### Các lệnh hữu ích
+### Useful Commands
 
 ```bash
-# Xem memory usage
+# View memory usage
 INFO memory
 
-# Xem số lượng keys
+# View number of keys
 DBSIZE
 
-# Xem keys theo pattern
+# View keys by pattern
 KEYS user:*
 
-# Xem TTL của key
+# View TTL of key
 TTL mykey
 
 # Monitor commands real-time
@@ -270,12 +270,12 @@ MONITOR
 ### 1. Naming Convention
 
 ```typescript
-// ✅ Tốt
+// ✅ Good
 "user:1001:profile";
 "session:abc123";
 "cache:product:123";
 
-// ❌ Tránh
+// ❌ Avoid
 "user1001";
 "sessionabc123";
 "cacheproduct123";
@@ -284,10 +284,10 @@ MONITOR
 ### 2. TTL Strategy
 
 ```typescript
-// Đặt TTL phù hợp
-await client.setEx("user:1001", 3600, userData); // 1 giờ
-await client.setEx("product:123", 86400, productData); // 1 ngày
-await client.setEx("session:abc", 1800, sessionData); // 30 phút
+// Set appropriate TTL
+await client.setEx("user:1001", 3600, userData); // 1 hour
+await client.setEx("product:123", 86400, productData); // 1 day
+await client.setEx("session:abc", 1800, sessionData); // 30 minutes
 ```
 
 ### 3. Error Handling
@@ -308,47 +308,47 @@ try {
 ### 4. Connection Management
 
 ```typescript
-// Sử dụng singleton pattern
+// Use singleton pattern
 const redis = RedisConfig.getInstance();
 await redis.connect();
 
-// Đóng kết nối khi không dùng
+// Close connection when not in use
 await redis.disconnect();
 ```
 
 ## 🐳 Docker Commands
 
 ```bash
-# Khởi động Redis
+# Start Redis
 docker-compose up -d redis
 
-# Xem logs
+# View logs
 docker-compose logs redis
 
-# Vào container
+# Enter container
 docker exec -it redis-learning-redis-1 redis-cli
 
-# Dừng Redis
+# Stop Redis
 docker-compose down
 ```
 
-## 📖 Tài liệu tham khảo
+## 📖 References
 
 - [Redis Official Documentation](https://redis.io/docs/)
 - [Redis Commands](https://redis.io/commands/)
 - [Redis Data Types](https://redis.io/docs/data-types/)
 - [Redis Best Practices](https://redis.io/docs/manual/patterns/)
 
-## 🤝 Đóng góp
+## 🤝 Contributing
 
-Nếu bạn có ý tưởng cải thiện hoặc thêm ví dụ mới, hãy tạo issue hoặc pull request!
+If you have ideas for improvements or want to add new examples, please create an issue or pull request!
 
 ## 📄 License
 
-MIT License - Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+MIT License - See [LICENSE](LICENSE) file for more details.
 
 ---
 
 **Happy Learning! 🎉**
 
-Học Redis một cách vui vẻ và hiệu quả với TypeScript!
+Learn Redis in a fun and effective way with TypeScript!
