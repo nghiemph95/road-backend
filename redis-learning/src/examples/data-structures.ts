@@ -23,10 +23,10 @@ export class DataStructures {
     const client = this.redis.getClient();
 
     // LPUSH - Thêm vào đầu danh sách
-    await client.lPush("shopping_list", "milk", "bread", "eggs");
+    await client.lPush("shopping_list", ["milk", "bread", "eggs"]);
 
     // RPUSH - Thêm vào cuối danh sách
-    await client.rPush("shopping_list", "cheese", "butter");
+    await client.rPush("shopping_list", ["cheese", "butter"]);
 
     // LRANGE - Lấy một phần danh sách
     const allItems = await client.lRange("shopping_list", 0, -1);
