@@ -60,7 +60,7 @@ export class DataStructures {
     const client = this.redis.getClient();
 
     // SADD - Thêm phần tử vào set
-    await client.sAdd("fruits", "apple", "banana", "orange", "apple"); // apple chỉ được thêm 1 lần
+    await client.sAdd("fruits", ["apple", "banana", "orange", "apple"]); // apple chỉ được thêm 1 lần
 
     // SMEMBERS - Lấy tất cả phần tử
     const fruits = await client.sMembers("fruits");
@@ -82,14 +82,14 @@ export class DataStructures {
     console.log("After removing banana:", afterRemove);
 
     // Tạo set thứ 2 để demo phép toán tập hợp
-    await client.sAdd("citrus", "orange", "lemon", "lime");
+    await client.sAdd("citrus", ["orange", "lemon", "lime"]);
 
     // SINTER - Giao của 2 set
-    const intersection = await client.sInter("fruits", "citrus");
+    const intersection = await client.sInter(["fruits", "citrus"]);
     console.log("Intersection (fruits ∩ citrus):", intersection);
 
     // SUNION - Hợp của 2 set
-    const union = await client.sUnion("fruits", "citrus");
+    const union = await client.sUnion(["fruits", "citrus"]);
     console.log("Union (fruits ∪ citrus):", union);
   }
 
@@ -114,7 +114,7 @@ export class DataStructures {
     console.log("Leaderboard (ascending):", ascending);
 
     // ZREVRANGE - Lấy theo thứ tự giảm dần
-    const descending = await client.zRevRange("leaderboard", 0, -1);
+    const descending = await client.zRange("leaderboard", 0, -1, { REV: true });
     console.log("Leaderboard (descending):", descending);
 
     // ZRANGE WITHSCORES - Lấy kèm điểm số
